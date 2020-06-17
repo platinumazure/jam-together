@@ -25,4 +25,10 @@ source env/bin/activate         # Windows: env\Scripts\Activate.bat
 pip install django
 pip install djangorestframework
 pip install djangorestframework-jsonapi
+
+# Set up the database
+python manage.py migrate
+
+# Start the development server
+python manage.py runserver
 ```
