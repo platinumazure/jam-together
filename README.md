@@ -22,9 +22,7 @@ python -m venv env
 source env/bin/activate         # Windows: env\Scripts\Activate.bat
 
 # Install necessary packages
-pip install django
-pip install djangorestframework
-pip install djangorestframework-jsonapi
+pip install -r requirements.txt
 
 # Set up the database
 python manage.py migrate
