@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import JamSession
+from .serializers import JamSessionSerializer
 
-# Create your views here.
+class JamSessionViewSet(viewsets.ModelViewSet):
+    queryset = JamSession.objects.all()
+    serializer_class = JamSessionSerializer
