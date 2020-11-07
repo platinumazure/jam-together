@@ -29,9 +29,17 @@ class JamSessionSerializer(serializers.ModelSerializer):
         self_link_view_name='jamsession-relationships',
     )
 
+    members = ResourceRelatedField(
+        queryset=User.objects,
+        many=True,
+        related_link_view_name='jamsession-related',
+        self_link_view_name='jamsession-relationships',
+    )
+
     related_serializers = {
         'conductor': UserSerializer,
         'created_by': UserSerializer,
+        'members': UserSerializer,
     }
 
     class Meta:

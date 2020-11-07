@@ -6,7 +6,10 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from apps.jtapi.views import JamSessionViewSet, UserViewSet, JamSessionRelationshipView
+from apps.jtapi.views import (
+    JamSessionViewSet, UserViewSet, JamSessionRelationshipView,
+    JamSessionMembersRelationshipView,
+)
 
 router = routers.DefaultRouter()
 router.register(r'jam-sessions', JamSessionViewSet)
@@ -18,6 +21,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # API relationships
+    path(
+        'api/jam-sessions/<int:pk>/relationships/members/',
+        JamSessionMembersRelationshipView.as_view(),
+        { "related_field": "members" },
+        name='jamsession-relationships',
+    ),
+
     path(
         'api/jam-sessions/<int:pk>/relationships/<related_field>/',
         JamSessionRelationshipView.as_view(),
