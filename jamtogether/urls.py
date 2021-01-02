@@ -36,7 +36,7 @@ urlpatterns = [
 
     # API related URLs
     path(
-        'api/jam-sessions/<int:pk>/<related_field>',
+        'api/jam-sessions/<int:pk>/<related_field>/',
         JamSessionViewSet.as_view({'get': 'retrieve_related'}),
         name='jamsession-related',
     ),
