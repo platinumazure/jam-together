@@ -7,6 +7,8 @@ class JamSession(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=2000)
     conductor = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
+    is_unlisted = models.BooleanField(default=False)
+
     members = models.ManyToManyField(
         User,
         related_name='jam_session_memberships',
