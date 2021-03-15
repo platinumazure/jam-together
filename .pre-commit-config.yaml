@@ -13,3 +13,8 @@ repos:
       - id: end-of-file-fixer
       - id: requirements-txt-fixer
       - id: trailing-whitespace
+  - repo: https://github.com/ecugol/pre-commit-hooks-django
+    rev: v0.3.0
+    hooks:
+      - id: check-untracked-migrations
+      - id: check-unapplied-migrations
