@@ -1,7 +1,7 @@
 asgiref==3.3.1
 Django==3.1.4
 djangorestframework==3.12.2
-djangorestframework-jsonapi==4.0.0
+djangorestframework-jsonapi==4.1.0
 inflection==0.5.1
 pre-commit==2.11.1
 pytz==2020.5
