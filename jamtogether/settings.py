@@ -80,6 +80,7 @@ REST_FRAMEWORK = {
 
 JSON_API_FORMAT_FIELD_NAMES = 'camelize'
 JSON_API_FORMAT_TYPES = 'camelize'
+JSON_API_FORMAT_RELATED_LINKS = 'dasherize'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
