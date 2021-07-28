@@ -18,14 +18,14 @@ repos:
     hooks:
       - id: check-untracked-migrations
 #      - id: check-unapplied-migrations
-#  - repo: local
-#    hooks:
-#      - id: check
-#        name: Django check
-#        entry: python manage.py check
-#        language: system
-#        types: [python]
-#        always_run: true
+  - repo: local
+    hooks:
+      - id: check
+        name: Django check
+        entry: sh -c 'python manage.py check'
+        language: system
+        types: [python]
+        always_run: true
 #      - id: test
 #        name: Django tests
 #        entry: python manage.py test
