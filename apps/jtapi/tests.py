@@ -6,7 +6,6 @@ from .views import JamSessionViewSet
 
 # TODO: Move into a tests package
 # TODO: Improve setup for better readability
-# TODO: Determine why `python manage.py test` does not find these tests
 
 class JamSessionViewTestCase(TestCase):
     def setUp(self):
