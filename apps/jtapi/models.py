@@ -20,9 +20,21 @@ class JamSession(models.Model):
     def __str__(self):
         return self.name
 
+
 class JamSessionMembership(models.Model):
     jam_session = models.ForeignKey(JamSession, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.user} in {self.jam_session}'
+
+
+class SongProvider(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=2000)
+    site_url = models.URLField()
+
+    # TODO: Add fields for URL patterns for retrieving song info?
+
+    def __str__(self):
+        return f'{self.name} ({self.site_url})'

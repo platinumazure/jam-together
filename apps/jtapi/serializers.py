@@ -1,7 +1,7 @@
 from rest_framework_json_api import serializers
 from rest_framework_json_api.relations import ResourceRelatedField
 from django.contrib.auth.models import User
-from .models import JamSession
+from .models import JamSession, SongProvider
 
 class UserSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='user-detail')
@@ -44,4 +44,12 @@ class JamSessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JamSession
+        fields = '__all__'
+
+
+class SongProviderSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='songprovider-detail')
+
+    class Meta:
+        model = SongProvider
         fields = '__all__'
