@@ -2,9 +2,14 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework_json_api.views import ModelViewSet, ReadOnlyModelViewSet, RelationshipView
 from django.contrib.auth.models import User
 from django.db.models import Q
-from .models import JamSession, SongProvider
+from .models import JamSession, SongProvider, Song
 from .permissions import IsConductorOrAdminOrReadOnly, IsAdminOrReadOnly
-from .serializers import JamSessionSerializer, SongProviderSerializer, UserSerializer
+from .serializers import (
+    JamSessionSerializer,
+    SongProviderSerializer,
+    SongSerializer,
+    UserSerializer,
+)
 
 class JamSessionViewSet(ModelViewSet):
     permission_classes = (IsConductorOrAdminOrReadOnly,)
@@ -40,6 +45,12 @@ class SongProviderViewSet(ModelViewSet):
     serializer_class = SongProviderSerializer
 
 
+class SongViewSet(ModelViewSet):
+    permission_classes = (IsAdminOrReadOnly,)
+    queryset = Song.objects.all()
+    serializer_class = SongSerializer
+
+
 class UserViewSet(ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -54,3 +65,7 @@ class JamSessionRelationshipView(RelationshipView):
 class JamSessionMembersRelationshipView(JamSessionRelationshipView):
     permission_classes = (IsConductorOrAdminOrReadOnly,)
     resource_name = "jamSession"
+
+
+class SongRelationshipView(RelationshipView):
+    queryset = Song.objects.all()

@@ -38,3 +38,25 @@ class SongProvider(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.site_url})'
+
+
+class Song(models.Model):
+    title = models.CharField(max_length=100)
+    subtitle = models.CharField(max_length=100, blank=True)
+    artist = models.CharField(max_length=200, blank=True)
+    composer = models.CharField(max_length=200, blank=True)
+    arranger = models.CharField(max_length=200, blank=True)
+
+    song_provider = models.ForeignKey(
+        SongProvider,
+        on_delete=models.CASCADE,
+        related_name = 'songs',
+    )
+
+    def __str__(self):
+        if self.subtitle:
+            full_title = f'{self.title} ({self.subtitle})'
+        else:
+            full_title = self.title
+
+        return f'{full_title} ({self.song_provider.name})'
