@@ -60,3 +60,17 @@ class Song(models.Model):
             full_title = self.title
 
         return f'{full_title} ({self.song_provider.name})'
+
+
+class PartDefinition(models.Model):
+    name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=False)
+
+    class PartTypes(models.TextChoices):
+        INSTRUMENT = 'Instrument'
+        TRANSPOSITION = 'Transposition'
+
+    part_type = models.CharField(max_length=20, choices=PartTypes.choices)
+
+    def __str__(self):
+        return f'{self.name} ({self.part_type})'
