@@ -91,7 +91,19 @@ class SongPart(models.Model):
     number = models.PositiveSmallIntegerField(null=True, blank=True)
 
     reference_url = models.URLField(blank=True)
-    full_file_url = models.URLField(blank=True)
+    part_file_url = models.URLField(blank=True)
 
     def __str__(self):
         return f'{self.song} ({self.definition.name})'
+
+
+class SongPartPage(models.Model):
+    song_part = models.ForeignKey(
+        SongPart,
+        on_delete=models.CASCADE,
+        related_name='pages',
+    )
+    page_file_url = models.URLField()
+
+    class Meta:
+        order_with_respect_to = 'song_part'

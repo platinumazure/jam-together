@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (
-    JamSession, JamSessionMembership, SongProvider, Song, PartDefinition, SongPart
+    JamSession, JamSessionMembership, SongProvider, Song, PartDefinition, SongPart,
+    SongPartPage,
 )
 
 class JamSessionMembershipInline(admin.TabularInline):
@@ -32,4 +33,16 @@ class SongAdmin(admin.ModelAdmin):
     model = Song
     inlines = [
         SongPartInline,
+    ]
+
+
+class SongPartPageInline(admin.StackedInline):
+    model = SongPartPage
+
+
+@admin.register(SongPart)
+class SongPartAdmin(admin.ModelAdmin):
+    model = SongPart
+    inlines = [
+        SongPartPageInline,
     ]
