@@ -74,3 +74,24 @@ class PartDefinition(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.part_type})'
+
+
+class SongPart(models.Model):
+    song = models.ForeignKey(
+        Song,
+        on_delete=models.CASCADE,
+        related_name='parts',
+    )
+    definition = models.ForeignKey(
+        PartDefinition,
+        on_delete=models.PROTECT,
+        related_name='+',
+    )
+
+    number = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    reference_url = models.URLField(blank=True)
+    full_file_url = models.URLField(blank=True)
+
+    def __str__(self):
+        return f'{self.song} ({self.definition.name})'
