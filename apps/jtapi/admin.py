@@ -15,12 +15,12 @@ class JamSessionAdmin(admin.ModelAdmin):
 
 @admin.register(SongProvider)
 class SongProviderAdmin(admin.ModelAdmin):
-    model = SongProvider
+    pass
 
 
 @admin.register(PartDefinition)
 class PartDefinitionAdmin(admin.ModelAdmin):
-    model = PartDefinition
+    pass
 
 
 class SongPartInline(admin.StackedInline):
@@ -30,7 +30,6 @@ class SongPartInline(admin.StackedInline):
 
 @admin.register(Song)
 class SongAdmin(admin.ModelAdmin):
-    model = Song
     inlines = [
         SongPartInline,
     ]
@@ -42,7 +41,6 @@ class SongPartPageInline(admin.StackedInline):
 
 @admin.register(SongPart)
 class SongPartAdmin(admin.ModelAdmin):
-    model = SongPart
     inlines = [
         SongPartPageInline,
     ]
