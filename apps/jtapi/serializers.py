@@ -120,9 +120,16 @@ class SongPartSerializer(serializers.ModelSerializer):
         self_link_view_name='songpart-relationships',
     )
 
+    definition = ResourceRelatedField(
+        queryset=PartDefinition.objects,
+        related_link_view_name='songpart-related',
+        self_link_view_name='songpart-relationships',
+    )
+
     related_serializers = {
         'song': SongSerializer,
         'pages': 'apps.jtapi.serializers.SongPartPageSerializer',
+        'definition': PartDefinitionSerializer,
     }
 
     included_serializers = {
