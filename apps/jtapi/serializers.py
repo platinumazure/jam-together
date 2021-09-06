@@ -87,6 +87,10 @@ class SongSerializer(serializers.ModelSerializer):
         'parts': 'apps.jtapi.serializers.SongPartSerializer',
     }
 
+    included_serializers = {
+        'parts': 'apps.jtapi.serializers.SongPartSerializer',
+    }
+
     class Meta:
         model = Song
         fields = '__all__'
