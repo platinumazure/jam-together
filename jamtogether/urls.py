@@ -12,9 +12,13 @@ from apps.jtapi.views import (
     UserViewSet,
     SongProviderViewSet,
     SongViewSet,
+    SongPartViewSet,
+    SongPartPageViewSet,
     JamSessionRelationshipView,
     JamSessionMembersRelationshipView,
     SongRelationshipView,
+    SongPartRelationshipView,
+    SongPartPageRelationshipView,
 )
 
 router = routers.DefaultRouter()
@@ -22,6 +26,8 @@ router.register(r'jam-sessions', JamSessionViewSet)
 router.register(r'part-definitions', PartDefinitionViewSet)
 router.register(r'song-providers', SongProviderViewSet)
 router.register(r'songs', SongViewSet)
+router.register(r'song-parts', SongPartViewSet)
+router.register(r'song-part-pages', SongPartPageViewSet)
 router.register(r'users', UserViewSet)
 
 urlpatterns = [
@@ -49,6 +55,18 @@ urlpatterns = [
         name='song-relationships',
     ),
 
+    path(
+        'api/song-parts/<int:pk>/relationships/<related_field>/',
+        SongPartRelationshipView.as_view(),
+        name='songpart-relationships',
+    ),
+
+    path(
+        'api/song-part-pages/<int:pk>/relationships/<related_field>/',
+        SongPartPageRelationshipView.as_view(),
+        name='songpartpage-relationships',
+    ),
+
     # API related URLs
     path(
         'api/jam-sessions/<int:pk>/<related_field>/',
@@ -60,5 +78,17 @@ urlpatterns = [
         'api/songs/<int:pk>/<related_field>/',
         SongViewSet.as_view({'get': 'retrieve_related'}),
         name='song-related',
+    ),
+
+    path(
+        'api/song-parts/<int:pk>/<related_field>/',
+        SongPartViewSet.as_view({'get': 'retrieve_related'}),
+        name='songpart-related',
+    ),
+
+    path(
+        'api/song-part-pages/<int:pk>/<related_field>/',
+        SongPartPageViewSet.as_view({'get': 'retrieve_related'}),
+        name='songpartpage-related',
     ),
 ]

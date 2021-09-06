@@ -1,7 +1,9 @@
 from rest_framework_json_api import serializers
 from rest_framework_json_api.relations import ResourceRelatedField
 from django.contrib.auth.models import User
-from .models import JamSession, SongProvider, Song, PartDefinition
+from .models import (
+    JamSession, SongProvider, Song, PartDefinition, SongPart, SongPartPage
+)
 
 class UserSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='user-detail')
@@ -73,8 +75,16 @@ class SongSerializer(serializers.ModelSerializer):
         self_link_view_name='song-relationships',
     )
 
+    parts = ResourceRelatedField(
+        queryset=SongPart.objects,
+        many=True,
+        related_link_view_name='song-related',
+        self_link_view_name='song-relationships',
+    )
+
     related_serializers = {
         'song_provider': SongProviderSerializer,
+        'parts': 'apps.jtapi.serializers.SongPartSerializer',
     }
 
     class Meta:
@@ -88,3 +98,51 @@ class PartDefinitionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PartDefinition
         fields = '__all__'
+
+
+class SongPartSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='songpart-detail')
+
+    song = ResourceRelatedField(
+        queryset=Song.objects,
+        related_link_view_name='songpart-related',
+        self_link_view_name='songpart-relationships',
+    )
+
+    pages = ResourceRelatedField(
+        queryset=SongPartPage.objects,
+        many=True,
+        related_link_view_name='songpart-related',
+        self_link_view_name='songpart-relationships',
+    )
+
+    related_serializers = {
+        'song': SongSerializer,
+        'pages': 'apps.jtapi.serializers.SongPartPageSerializer',
+    }
+
+    included_serializers = {
+        'pages': 'apps.jtapi.serializers.SongPartPageSerializer',
+    }
+
+    class Meta:
+        model = SongPart
+        fields = '__all__'
+
+
+class SongPartPageSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='songpartpage-detail')
+
+    song_part = ResourceRelatedField(
+        queryset=SongPart.objects,
+        related_link_view_name='songpartpage-related',
+        self_link_view_name='songpartpage-relationships',
+    )
+
+    related_serializers = {
+        'song_part': SongPartSerializer,
+    }
+
+    class Meta:
+        model = SongPartPage
+        exclude = ['_order']
