@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 
@@ -95,6 +96,12 @@ class JamSession(models.Model):
         through='JamSessionMembership'
     )
 
+    songs = models.ManyToManyField(
+        Song,
+        related_name='+',
+        through='JamSessionSong',
+    )
+
     created_by = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -107,3 +114,26 @@ class JamSessionMembership(models.Model):
 
     def __str__(self):
         return f'{self.user} in {self.jam_session}'
+
+
+class JamSessionSong(models.Model):
+    jam_session = models.ForeignKey(JamSession, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+
+    date_queued = models.DateTimeField(default=timezone.now)
+    date_played = models.DateTimeField(null=True, blank=True)
+
+    class JamSessionSongStates(models.TextChoices):
+        QUEUED = 'Queued'
+        CANCELED = 'Canceled'
+        DEFERRED = 'Deferred'
+        PLAYED = 'Played'
+
+    state = models.CharField(
+        max_length=10,
+        choices=JamSessionSongStates.choices,
+        default=JamSessionSongStates.QUEUED,
+    )
+
+    def __str__(self):
+        return f'{self.song.title} ({self.state} in "{self.jam_session.name}")'
