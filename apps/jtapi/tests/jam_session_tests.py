@@ -1,10 +1,9 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from rest_framework.test import APIRequestFactory, force_authenticate
-from .models import JamSession
-from .views import JamSessionViewSet
+from apps.jtapi.models import JamSession
+from apps.jtapi.views import JamSessionViewSet
 
-# TODO: Move into a tests package
 # TODO: Improve setup for better readability
 
 class JamSessionViewTestCase(TestCase):
