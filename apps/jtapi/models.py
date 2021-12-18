@@ -96,12 +96,6 @@ class JamSession(models.Model):
         through='JamSessionMembership'
     )
 
-    songs = models.ManyToManyField(
-        Song,
-        related_name='+',
-        through='JamSessionSong',
-    )
-
     created_by = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -117,8 +111,17 @@ class JamSessionMembership(models.Model):
 
 
 class JamSessionSong(models.Model):
-    jam_session = models.ForeignKey(JamSession, on_delete=models.CASCADE)
-    song = models.ForeignKey(Song, on_delete=models.CASCADE)
+    jam_session = models.ForeignKey(
+        JamSession,
+        related_name='songs',
+        on_delete=models.CASCADE,
+    )
+
+    song = models.ForeignKey(
+        Song,
+        related_name='+',
+        on_delete=models.CASCADE,
+    )
 
     date_queued = models.DateTimeField(default=timezone.now)
     date_played = models.DateTimeField(null=True, blank=True)
