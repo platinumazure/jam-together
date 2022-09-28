@@ -1,4 +1,4 @@
-Django==4.0.4
-djangorestframework==3.13.1
-djangorestframework-jsonapi==5.0.0
+Django==4.1.1
+djangorestframework==3.14.0
+djangorestframework-jsonapi==6.0.0
 pre-commit==2.11.1
