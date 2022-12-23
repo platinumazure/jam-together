@@ -2,7 +2,8 @@ from rest_framework_json_api import serializers
 from rest_framework_json_api.relations import ResourceRelatedField
 from django.contrib.auth.models import User
 from .models import (
-    JamSession, SongProvider, Song, PartDefinition, SongPart, SongPartPage
+    JamSession, SongProvider, Song, PartDefinition, SongPart, SongPartPage,
+    JamSessionSong,
 )
 
 class UserSerializer(serializers.ModelSerializer):
@@ -39,7 +40,7 @@ class JamSessionSerializer(serializers.ModelSerializer):
     )
 
     songs = ResourceRelatedField(
-        queryset=Song.objects,
+        queryset=JamSessionSong.objects,
         many=True,
         related_link_view_name='jamsession-related',
         self_link_view_name='jamsession-relationships',
@@ -49,7 +50,7 @@ class JamSessionSerializer(serializers.ModelSerializer):
         'conductor': UserSerializer,
         'created_by': UserSerializer,
         'members': UserSerializer,
-        'songs': 'apps.jtapi.serializers.SongSerializer',
+        'songs': 'apps.jtapi.serializers.JamSessionSongSerializer',
     }
 
     class Meta:
@@ -101,6 +102,31 @@ class SongSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Song
+        fields = '__all__'
+
+
+class JamSessionSongSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='jamsessionsong-detail')
+
+    jam_session = ResourceRelatedField(
+        queryset=JamSession.objects,
+        related_link_view_name='jamsessionsong-related',
+        self_link_view_name='jamsessionsong-relationships',
+    )
+
+    song = ResourceRelatedField(
+        queryset=Song.objects,
+        related_link_view_name='jamsessionsong-related',
+        self_link_view_name='jamsessionsong-relationships',
+    )
+
+    related_serializers = {
+        'song': SongSerializer,
+        'jam_session': JamSessionSerializer,
+    }
+
+    class Meta:
+        model = JamSessionSong
         fields = '__all__'
 
 

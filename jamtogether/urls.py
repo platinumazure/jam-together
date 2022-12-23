@@ -12,10 +12,13 @@ from apps.jtapi.views import (
     UserViewSet,
     SongProviderViewSet,
     SongViewSet,
+    JamSessionSongViewSet,
     SongPartViewSet,
     SongPartPageViewSet,
     JamSessionRelationshipView,
     JamSessionMembersRelationshipView,
+    JamSessionSongsRelationshipView,
+    JamSessionSongRelationshipView,
     SongRelationshipView,
     SongPartRelationshipView,
     SongPartPageRelationshipView,
@@ -26,6 +29,7 @@ router.register(r'jam-sessions', JamSessionViewSet)
 router.register(r'part-definitions', PartDefinitionViewSet)
 router.register(r'song-providers', SongProviderViewSet)
 router.register(r'songs', SongViewSet)
+router.register(r'jam-session-songs', JamSessionSongViewSet)
 router.register(r'song-parts', SongPartViewSet)
 router.register(r'song-part-pages', SongPartPageViewSet)
 router.register(r'users', UserViewSet)
@@ -44,6 +48,13 @@ urlpatterns = [
     ),
 
     path(
+        'api/jam-sessions/<int:pk>/relationships/songs/',
+        JamSessionSongsRelationshipView.as_view(),
+        { "related_field": "songs" },
+        name='jamsession-relationships',
+    ),
+
+    path(
         'api/jam-sessions/<int:pk>/relationships/<related_field>/',
         JamSessionRelationshipView.as_view(),
         name='jamsession-relationships',
@@ -53,6 +64,12 @@ urlpatterns = [
         'api/songs/<int:pk>/relationships/<related_field>/',
         SongRelationshipView.as_view(),
         name='song-relationships',
+    ),
+
+    path(
+        'api/jam-session-songs/<int:pk>/relationships/<related_field>',
+        JamSessionSongRelationshipView.as_view(),
+        name='jamsessionsong-relationships',
     ),
 
     path(
@@ -78,6 +95,12 @@ urlpatterns = [
         'api/songs/<int:pk>/<related_field>/',
         SongViewSet.as_view({'get': 'retrieve_related'}),
         name='song-related',
+    ),
+
+    path(
+        'api/jam-session-songs/<int:pk>/<related_field>/',
+        JamSessionSongViewSet.as_view({'get': 'retrieve_related'}),
+        name='jamsessionsong-related',
     ),
 
     path(

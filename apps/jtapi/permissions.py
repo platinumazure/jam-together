@@ -10,7 +10,12 @@ class IsConductorOrAdminOrReadOnly(permissions.BasePermission):
         if request.user.is_staff:
             return True
 
-        return request.user == obj.conductor
+        if hasattr(obj, "conductor"):
+            return request.user == obj.conductor
+        elif hasattr(obj, "jam_session"):
+            return request.user == obj.jam_session.conductor
+        else:
+            return False
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):
