@@ -2,13 +2,13 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from rest_framework.test import APIRequestFactory, force_authenticate
 from apps.jtapi.models import JamSession, Song, SongProvider
-from apps.jtapi.views import JamSessionSongsRelationshipView
+from apps.jtapi.views import JamSessionRelationshipViewSongs
 from unittest import skip
 
 # TODO: Improve setup for better readability
 
 @skip("Need to figure out what we actually want to test here")
-class JamSessionViewTestCase(TestCase):
+class JamSessionRelationshipViewSongsTestCase(TestCase):
     def setUp(self):
         self.admin_user = User.objects.create_superuser(username="admin", password="admin")
         self.conductor = User.objects.create_user(username="conductor", password="conductor")
@@ -37,7 +37,7 @@ class JamSessionViewTestCase(TestCase):
 
         self.factory = APIRequestFactory()
 
-        self.view = JamSessionSongsView.as_view()
+        self.view = JamSessionRelationshipViewSongs.as_view()
 
     def test_admin_can_add_song_to_song_list(self):
         request_data = {

@@ -93,12 +93,12 @@ class JamSessionRelationshipView(RelationshipView):
     queryset = JamSession.objects.all()
 
 
-class JamSessionMembersRelationshipView(JamSessionRelationshipView):
+class JamSessionRelationshipViewMembers(JamSessionRelationshipView):
     permission_classes = (IsConductorOrAdminOrReadOnly,)
     resource_name = "jamSession"
 
 
-class JamSessionSongsRelationshipView(JamSessionRelationshipView):
+class JamSessionRelationshipViewSongs(JamSessionRelationshipView):
     permission_classes = (IsConductorOrAdminOrReadOnly,)
     resource_name = "jamSession"
 
