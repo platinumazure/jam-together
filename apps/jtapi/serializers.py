@@ -1,5 +1,8 @@
 from rest_framework_json_api import serializers
-from rest_framework_json_api.relations import ResourceRelatedField
+from rest_framework_json_api.relations import (
+    ResourceRelatedField,
+    SerializerMethodResourceRelatedField,
+)
 from django.contrib.auth.models import User
 from .models import (
     JamSession, SongProvider, Song, PartDefinition, SongPart, SongPartPage,
@@ -46,12 +49,22 @@ class JamSessionSerializer(serializers.ModelSerializer):
         self_link_view_name='jamsession-relationships',
     )
 
+    current_song = SerializerMethodResourceRelatedField(
+        model=JamSessionSong,
+    )
+
     related_serializers = {
         'conductor': UserSerializer,
         'created_by': UserSerializer,
         'members': UserSerializer,
         'songs': 'apps.jtapi.serializers.JamSessionSongSerializer',
     }
+
+    def get_current_song(self, instance):
+        return JamSessionSong.objects.filter(
+                jam_session=instance,
+                state='Queued',
+            ).order_by('date_queued').first()
 
     class Meta:
         model = JamSession
