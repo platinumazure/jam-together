@@ -1,7 +1,24 @@
 from rest_framework import permissions
+from .models import JamSession
 
 class IsConductorOrAdminOrReadOnly(permissions.BasePermission):
     message = "User must be an admin or conductor."
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        elif request.user.is_staff:
+            return True
+
+        if request.method == "POST" and "jam_session" in request.data:
+            try:
+                jam_session = JamSession.objects.get(pk=request.data["jam_session"]["id"])
+            except JamSession.DoesNotExist:
+                return True
+            else:
+                return jam_session.conductor == request.user
+
+        return True
 
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:

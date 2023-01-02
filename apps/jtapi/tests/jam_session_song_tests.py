@@ -2,13 +2,10 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from rest_framework.test import APIRequestFactory, force_authenticate
 from apps.jtapi.models import JamSession, Song, SongProvider
-from apps.jtapi.views import JamSessionRelationshipViewSongs
+from apps.jtapi.views import JamSessionSongViewSet
 from unittest import skip
 
-# TODO: Improve setup for better readability
-
-@skip("Need to figure out what we actually want to test here")
-class JamSessionRelationshipViewSongsTestCase(TestCase):
+class JamSessionSongViewSetTestCase(TestCase):
     def setUp(self):
         self.admin_user = User.objects.create_superuser(username="admin", password="admin")
         self.conductor = User.objects.create_user(username="conductor", password="conductor")
@@ -37,37 +34,40 @@ class JamSessionRelationshipViewSongsTestCase(TestCase):
 
         self.factory = APIRequestFactory()
 
-        self.view = JamSessionRelationshipViewSongs.as_view()
+        self.view = JamSessionSongViewSet.as_view({ "get": "list", "post": "create" })
 
-    def test_admin_can_add_song_to_song_list(self):
-        request_data = {
-            "data": {
-                "type": "jamSessionSong",
-                "attributes": {},
-                "relationships": {
-                    "jam_session": {
-                        "data": { "id": self.jam_session.id, "type": "jamSession" }
-                    },
-                    "song": {
-                        "data": { "id": self.song.id, "type": "song" }
-                    }
-                }
-            }
+    def test_create_permissions(self):
+        params = {
+            "admin": (self.admin_user, 201),
+            "conductor": (self.conductor, 201),
+            "member": (self.member, 403),
+            "nonmember": (self.non_member, 403),
         }
 
-        request = self.factory.post(
-            "/jam-sessions/1/relationships/songs",
-            data=request_data,
-            format="vnd.api+json",
-        )
-        force_authenticate(request, user=self.admin_user)
+        for scenario, (user, expected_code) in params.items():
+            with self.subTest(scenario):
+                request_data = {
+                    "data": {
+                        "type": "jamSessionSong",
+                        "attributes": {},
+                        "relationships": {
+                            "jam_session": {
+                                "data": { "id": self.jam_session.id, "type": "jamSession" }
+                            },
+                            "song": {
+                                "data": { "id": self.song.id, "type": "song" }
+                            }
+                        }
+                    }
+                }
 
-        response = self.view(
-            request,
-            pk=self.jam_session.pk,
-            related_field="songs",
-        )
+                request = self.factory.post(
+                    "/jam-session-songs/",
+                    data=request_data,
+                    format="vnd.api+json",
+                )
+                force_authenticate(request, user=user)
 
-        print(response)
+                response = self.view(request)
 
-        self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.status_code, expected_code)
