@@ -16,8 +16,9 @@ from apps.jtapi.views import (
     SongPartViewSet,
     SongPartPageViewSet,
     JamSessionRelationshipView,
+    JamSessionRelationshipViewCurrentSong,
     JamSessionRelationshipViewMembers,
-    JamSessionRelationshipViewSongs,
+    JamSessionRelationshipViewQueuedSongs,
     JamSessionSongRelationshipView,
     SongRelationshipView,
     SongPartRelationshipView,
@@ -48,9 +49,16 @@ urlpatterns = [
     ),
 
     path(
-        'api/jam-sessions/<int:pk>/relationships/songs/',
-        JamSessionRelationshipViewSongs.as_view(),
-        { "related_field": "songs" },
+        'api/jam-sessions/<int:pk>/relationships/queued-songs/',
+        JamSessionRelationshipViewQueuedSongs.as_view(),
+        { "related_field": "queued_songs" },
+        name='jamsession-relationships',
+    ),
+
+    path(
+        'api/jam-sessions/<int:pk>/relationships/current-song/',
+        JamSessionRelationshipViewCurrentSong.as_view(),
+        { "related_field": "current_song" },
         name='jamsession-relationships',
     ),
 

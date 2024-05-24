@@ -1,8 +1,8 @@
 from rest_framework_json_api.views import ModelViewSet, RelationshipView
 from django.db.models import Q
 
-from ..models import JamSession
-from ..permissions import IsConductorOrAdminOrReadOnly
+from ..models import JamSession, JamSessionSong
+from ..permissions import IsConductorOrAdminOrReadOnly, IsReadOnly
 from ..serializers import JamSessionSerializer
 
 class JamSessionViewSet(ModelViewSet):
@@ -42,6 +42,14 @@ class JamSessionRelationshipViewMembers(JamSessionRelationshipView):
     resource_name = "jamSession"
 
 
-class JamSessionRelationshipViewSongs(JamSessionRelationshipView):
-    permission_classes = (IsConductorOrAdminOrReadOnly,)
+class JamSessionRelationshipViewQueuedSongs(JamSessionRelationshipView):
+    permission_classes = (IsReadOnly,)
     resource_name = "jamSession"
+
+
+class JamSessionRelationshipViewCurrentSong(JamSessionRelationshipView):
+    permission_classes = (IsReadOnly,)
+    resource_name = "jamSession"
+
+    def get_queryset(self):
+        return JamSessionSong.objects.filter(state="Queued")[0:1]
