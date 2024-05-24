@@ -10,7 +10,7 @@ providers to share their libraries on this platform so their users can jam.
 
 ## Prerequisites
 
-1. Python (v3.8 recommended)
+1. Python (v3.12 recommended)
 
 ## Setup Steps
 
