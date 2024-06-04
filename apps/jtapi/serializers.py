@@ -139,6 +139,18 @@ class JamSessionSongSerializer(serializers.ModelSerializer):
         'jam_session': JamSessionSerializer,
     }
 
+    def validate(self, data):
+        if (
+            self.instance is not None and
+            'state' in data and
+            data['state'] == JamSessionSong.JamSessionSongStates.PLAYED and
+            self.instance.state == JamSessionSong.JamSessionSongStates.QUEUED and
+            self.instance != self.instance.jam_session.current_song
+        ):
+            raise serializers.ValidationError('Only the first song in the queue may be marked as played.')
+
+        return data
+
     class Meta:
         model = JamSessionSong
         fields = '__all__'

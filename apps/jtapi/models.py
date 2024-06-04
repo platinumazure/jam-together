@@ -147,5 +147,13 @@ class JamSessionSong(models.Model):
         default=JamSessionSongStates.QUEUED,
     )
 
+    def save(self, *args, **kwargs):
+        if self.state == JamSessionSong.JamSessionSongStates.PLAYED and self.date_played is None:
+            self.date_played = timezone.now()
+        elif self.state != JamSessionSong.JamSessionSongStates.PLAYED and self.date_played is not None:
+            self.date_played = None
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.song.title} ({self.state} in "{self.jam_session.name}")'
