@@ -1,5 +1,5 @@
 from rest_framework_json_api.views import ModelViewSet, ReadOnlyModelViewSet, RelationshipView
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from ..models import SongProvider, Song, JamSessionSong
 from ..permissions import IsConductorOrAdminOrReadOnly, IsAdminOrReadOnly
 from ..serializers import (
@@ -11,6 +11,8 @@ from ..serializers import (
 
 from .jam_session_views import *
 from .song_part_views import *
+
+User = get_user_model()
 
 class SongProviderViewSet(ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)

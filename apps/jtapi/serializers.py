@@ -3,11 +3,13 @@ from rest_framework_json_api.relations import (
     ResourceRelatedField,
     SerializerMethodResourceRelatedField,
 )
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from .models import (
     JamSession, SongProvider, Song, PartDefinition, SongPart, SongPartPage,
     JamSessionSong,
 )
+
+User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='user-detail')

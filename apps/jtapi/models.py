@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-# Create your models here.
+# Import the current User model
+User = get_user_model()
 
 class SongProvider(models.Model):
     name = models.CharField(max_length=100)
