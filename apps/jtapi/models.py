@@ -98,6 +98,14 @@ class JamSession(models.Model):
 
     created_by = models.ForeignKey(User, related_name='+', on_delete=models.CASCADE)
 
+    @property
+    def current_song(self):
+        return self.songs.filter(state=JamSessionSong.JamSessionSongStates.QUEUED).first()
+
+    @property
+    def queued_songs(self):
+        return self.songs.filter(state=JamSessionSong.JamSessionSongStates.QUEUED).order_by('date_queued')
+
     def __str__(self):
         return self.name
 

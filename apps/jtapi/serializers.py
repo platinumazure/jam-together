@@ -42,15 +42,17 @@ class JamSessionSerializer(serializers.ModelSerializer):
         self_link_view_name='jamsession-relationships',
     )
 
-    queued_songs = SerializerMethodResourceRelatedField(
+    queued_songs = ResourceRelatedField(
         model=JamSessionSong,
         many=True,
+        read_only=True,
         related_link_view_name='jamsession-related',
         self_link_view_name='jamsession-relationships',
     )
 
-    current_song = SerializerMethodResourceRelatedField(
+    current_song = ResourceRelatedField(
         model=JamSessionSong,
+        read_only=True,
         related_link_view_name='jamsession-related',
         self_link_view_name='jamsession-relationships',
     )
@@ -62,15 +64,6 @@ class JamSessionSerializer(serializers.ModelSerializer):
         'members': UserSerializer,
         'queued_songs': 'apps.jtapi.serializers.JamSessionSongSerializer',
     }
-
-    def get_current_song(self, instance):
-        return self.get_queued_songs(instance).first()
-
-    def get_queued_songs(self, instance):
-        return JamSessionSong.objects.filter(
-                jam_session=instance,
-                state='Queued',
-            ).order_by('date_queued')
 
     class Meta:
         model = JamSession

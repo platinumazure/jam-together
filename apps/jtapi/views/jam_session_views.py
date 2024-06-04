@@ -50,6 +50,3 @@ class JamSessionRelationshipViewQueuedSongs(JamSessionRelationshipView):
 class JamSessionRelationshipViewCurrentSong(JamSessionRelationshipView):
     permission_classes = (IsReadOnly,)
     resource_name = "jamSession"
-
-    def get_queryset(self):
-        return JamSessionSong.objects.filter(state="Queued")[0:1]
