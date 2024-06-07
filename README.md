@@ -22,7 +22,7 @@ python -m venv env
 source env/bin/activate         # Windows: env\Scripts\Activate.bat
 
 # Install necessary packages
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 
 # Set up the database
 python manage.py migrate

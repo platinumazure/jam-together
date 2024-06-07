@@ -1,0 +1,4 @@
+-r requirements.txt
+
+# Dev-specific requirements
+pre-commit==2.20.0
