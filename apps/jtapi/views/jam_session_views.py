@@ -1,7 +1,7 @@
 from rest_framework_json_api.views import ModelViewSet, RelationshipView
 from django.db.models import Q
 
-from ..models import JamSession, JamSessionSong
+from ..models import JamSession
 from ..permissions import IsConductorOrAdminOrReadOnly, IsReadOnly
 from ..serializers import JamSessionSerializer
 

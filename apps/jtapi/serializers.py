@@ -1,8 +1,5 @@
 from rest_framework_json_api import serializers
-from rest_framework_json_api.relations import (
-    ResourceRelatedField,
-    SerializerMethodResourceRelatedField,
-)
+from rest_framework_json_api.relations import ResourceRelatedField
 from django.contrib.auth import get_user_model
 from .models import (
     JamSession, SongProvider, Song, PartDefinition, SongPart, SongPartPage,

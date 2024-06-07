@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from rest_framework.test import APIRequestFactory, force_authenticate
 from apps.jtapi.models import JamSession, Song, SongProvider
 from apps.jtapi.views import JamSessionSongViewSet
-from unittest import skip
 
 User = get_user_model()
 
