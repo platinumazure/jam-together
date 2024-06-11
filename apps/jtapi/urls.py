@@ -32,83 +32,83 @@ router.register(r'users', UserViewSet)
 urlpatterns = router.urls + [
     # API relationships
     path(
-        'api/jam-sessions/<int:pk>/relationships/members/',
+        'jam-sessions/<int:pk>/relationships/members/',
         JamSessionRelationshipViewMembers.as_view(),
         { "related_field": "members" },
         name='jamsession-relationships',
     ),
 
     path(
-        'api/jam-sessions/<int:pk>/relationships/queued-songs/',
+        'jam-sessions/<int:pk>/relationships/queued-songs/',
         JamSessionRelationshipViewQueuedSongs.as_view(),
         { "related_field": "queued_songs" },
         name='jamsession-relationships',
     ),
 
     path(
-        'api/jam-sessions/<int:pk>/relationships/current-song/',
+        'jam-sessions/<int:pk>/relationships/current-song/',
         JamSessionRelationshipViewCurrentSong.as_view(),
         { "related_field": "current_song" },
         name='jamsession-relationships',
     ),
 
     path(
-        'api/jam-sessions/<int:pk>/relationships/<related_field>/',
+        'jam-sessions/<int:pk>/relationships/<related_field>/',
         JamSessionRelationshipView.as_view(),
         name='jamsession-relationships',
     ),
 
     path(
-        'api/songs/<int:pk>/relationships/<related_field>/',
+        'songs/<int:pk>/relationships/<related_field>/',
         SongRelationshipView.as_view(),
         name='song-relationships',
     ),
 
     path(
-        'api/jam-session-songs/<int:pk>/relationships/<related_field>',
+        'jam-session-songs/<int:pk>/relationships/<related_field>',
         JamSessionSongRelationshipView.as_view(),
         name='jamsessionsong-relationships',
     ),
 
     path(
-        'api/song-parts/<int:pk>/relationships/<related_field>/',
+        'song-parts/<int:pk>/relationships/<related_field>/',
         SongPartRelationshipView.as_view(),
         name='songpart-relationships',
     ),
 
     path(
-        'api/song-part-pages/<int:pk>/relationships/<related_field>/',
+        'song-part-pages/<int:pk>/relationships/<related_field>/',
         SongPartPageRelationshipView.as_view(),
         name='songpartpage-relationships',
     ),
 
     # API related URLs
     path(
-        'api/jam-sessions/<int:pk>/<related_field>/',
+        'jam-sessions/<int:pk>/<related_field>/',
         JamSessionViewSet.as_view({'get': 'retrieve_related'}),
         name='jamsession-related',
     ),
 
     path(
-        'api/songs/<int:pk>/<related_field>/',
+        'songs/<int:pk>/<related_field>/',
         SongViewSet.as_view({'get': 'retrieve_related'}),
         name='song-related',
     ),
 
     path(
-        'api/jam-session-songs/<int:pk>/<related_field>/',
+        'jam-session-songs/<int:pk>/<related_field>/',
         JamSessionSongViewSet.as_view({'get': 'retrieve_related'}),
         name='jamsessionsong-related',
     ),
 
     path(
-        'api/song-parts/<int:pk>/<related_field>/',
+        'song-parts/<int:pk>/<related_field>/',
         SongPartViewSet.as_view({'get': 'retrieve_related'}),
         name='songpart-related',
     ),
 
     path(
-        'api/song-part-pages/<int:pk>/<related_field>/',
+        'song-part-pages/<int:pk>/<related_field>/',
         SongPartPageViewSet.as_view({'get': 'retrieve_related'}),
         name='songpartpage-related',
     ),
