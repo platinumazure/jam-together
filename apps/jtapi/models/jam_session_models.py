@@ -76,5 +76,8 @@ class JamSessionSong(models.Model):
 
         super().save(*args, **kwargs)
 
+    class Meta:
+        order_with_respect_to = 'jam_session'
+
     def __str__(self):
         return f'{self.song.title} ({self.state} in "{self.jam_session.name}")'
