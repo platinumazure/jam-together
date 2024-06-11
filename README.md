@@ -27,6 +27,9 @@ pip install -r requirements-dev.txt
 # Set up the database
 python manage.py migrate
 
+# Collect static files
+python manage.py collectstatic --noinput
+
 # Start the development server
-python manage.py runserver
+daphne -p 8000 jamtogether.asgi:application
 ```

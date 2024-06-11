@@ -5,15 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Django",
+            "name": "Daphne Server",
             "type": "debugpy",
             "request": "launch",
+            "program": "${workspaceFolder}/env/Scripts/daphne.exe",
             "args": [
-                "runserver"
+                "-p", "8000",
+                "jamtogether.asgi:application"
             ],
-            "django": true,
-            "autoStartBrowser": true,
-            "program": "${workspaceFolder}\\manage.py"
+            "console": "integratedTerminal"
         }
     ]
 }
