@@ -1,4 +1,5 @@
 from django.contrib import admin
+import nested_admin
 from .models import (
     JamSession, JamSessionMembership, SongProvider, Song, PartDefinition, SongPart,
     SongPartPage, JamSessionSong
@@ -34,26 +35,23 @@ class PartDefinitionAdmin(admin.ModelAdmin):
     pass
 
 
-class SongPartInline(admin.StackedInline):
+class SongPartPageInline(nested_admin.NestedStackedInline):
+    model = SongPartPage
+    extra = 0
+
+
+class SongPartInline(nested_admin.NestedStackedInline):
     model = SongPart
-    show_change_link = True
+    inlines = [
+        SongPartPageInline,
+    ]
+    extra = 0
 
 
 @admin.register(Song)
-class SongAdmin(admin.ModelAdmin):
+class SongAdmin(nested_admin.NestedModelAdmin):
     inlines = [
         SongPartInline,
-    ]
-
-
-class SongPartPageInline(admin.StackedInline):
-    model = SongPartPage
-
-
-@admin.register(SongPart)
-class SongPartAdmin(admin.ModelAdmin):
-    inlines = [
-        SongPartPageInline,
     ]
 
 
