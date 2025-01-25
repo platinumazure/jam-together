@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework_json_api',
     'apps.jtapi.apps.JTApiConfig',
 ]
+
+ASGI_APPLICATION = 'jamtogether.asgi.application'
 
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
