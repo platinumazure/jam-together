@@ -19,11 +19,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'qu*+5t0h5%8!rn+!6vvl2(6%j9$@t+wp@3^e6e4n*&re1%c^mw'
+SECRET_KEY = os.getenv('JAMTOGETHER_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -126,12 +125,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# TODO: Change for production
+DATABASES = {}
 
 
 # Password validation
@@ -181,3 +176,7 @@ STORAGES = {
 # Limit the number of files that can be uploaded in a single request
 
 DATA_UPLOAD_MAX_NUMBER_FILES = 5
+
+# Override production variables if DJANGO_DEVELOPMENT env variable is true
+if os.getenv('DJANGO_DEVELOPMENT') == 'true':
+    from settings_dev import *  # or specific overrides
