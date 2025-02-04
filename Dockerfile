@@ -1,5 +1,5 @@
 # Use the official Python runtime image
-FROM python:3.13  
+FROM python:3.13-slim
  
 # Create the app directory
 RUN mkdir /app
@@ -14,7 +14,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1 
  
 # Upgrade pip
-RUN pip install --upgrade pip 
+RUN pip install --upgrade pip
  
 # Copy the Django project  and install dependencies
 COPY requirements.txt  /app/

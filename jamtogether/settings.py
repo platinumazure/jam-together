@@ -24,7 +24,10 @@ SECRET_KEY = os.getenv('JAMTOGETHER_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = (os.getenv('JAMTOGETHER_ALLOWED_HOSTS').split(',')
+    if os.getenv('JAMTOGETHER_ALLOWED_HOSTS')
+    else []
+)
 
 
 # Application definition
