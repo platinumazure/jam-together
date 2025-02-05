@@ -1,0 +1,11 @@
+# No need for Python venv, VSCode settings, or dev requirements
+.venv/
+.vscode/
+/requirements-dev.txt
+
+# No need for .git stuff
+.git/
+.gitignore
+
+# No need for pre-commit config
+.pre-commit-config.yaml
